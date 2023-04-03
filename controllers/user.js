@@ -22,8 +22,9 @@ const userRegister = async (req, res) => {
     }
     res.status(201).send({ data })
   } catch (error) {
-    console.log(error)
-    handleHTTPError(res, 'ERROR_REGISTER_USER')
+    console.log((error.errors[0].message).toUpperCase())
+    const errMessage = (error.errors[0].message).toUpperCase()
+    handleHTTPError(res, errMessage || 'ERROR_REGISTER_USER')
   }
 }
 
