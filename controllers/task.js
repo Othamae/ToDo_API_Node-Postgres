@@ -2,6 +2,7 @@
 
 const { handleHTTPError } = require('../middlewares/handleHTTPError')
 const taskModel = require('../models/task')
+const { matchedData } = require('express-validator')
 
 const getAllTask = async (req, res) => {
   try {
@@ -27,13 +28,8 @@ const addTask = async (req, res) => {
     }
     await taskModel.create(newTask)
     const createdTask = await taskModel.findOne({ where: { title } })
-    const data = {
-      id: createdTask.id,
-      title,
-      completed: createdTask.completed,
-      user_id: createdTask.user_id
-    }
-    res.status(201).send({ data })
+
+    res.status(201).send({ createdTask })
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_CREATING_TASK')
@@ -43,14 +39,19 @@ const addTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params
-    const { ...body } = req
+    const { ...body } = matchedData(req)
     const taskToUpdate = await taskModel.findOne({ where: { id } })
 
     if (!taskToUpdate) return res.status(404).send('NO_TASK_FOUND')
 
     taskToUpdate.set({ ...body })
     const updatedTask = await taskToUpdate.save()
-    res.status(200).send({ updatedTask })
+    const data = {
+      id: updatedTask.id,
+      title: updatedTask.title,
+      completed: updatedTask.completed
+    }
+    res.status(200).send({ data })
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_UPDATING_TASK')
