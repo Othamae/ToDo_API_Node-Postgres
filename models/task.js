@@ -1,7 +1,7 @@
 const { sequelize } = require('../db')
 const { DataTypes } = require('sequelize')
 
-const Task = sequelize.define('Task',
+const Task = sequelize.define('Tasks',
   {
     title: {
       type: DataTypes.STRING,
@@ -10,9 +10,14 @@ const Task = sequelize.define('Task',
     completed: {
       type: DataTypes.BOOLEAN
     },
-    user: {
-      type: DataTypes.STRING
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
-  })
+  },
+  {
+    timestamps: true
+  }
+)
 
 module.exports = Task
