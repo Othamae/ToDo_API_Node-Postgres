@@ -1,7 +1,7 @@
 const { sequelize } = require('../db')
 const { DataTypes } = require('sequelize')
 
-const Task = sequelize.define('Tasks',
+const Task = sequelize.define('Task',
   {
     title: {
       type: DataTypes.STRING,
@@ -16,7 +16,12 @@ const Task = sequelize.define('Tasks',
     }
   },
   {
-    timestamps: true
+    tableName: 'Tasks',
+    timestamps: true,
+    underscored: true,
+    defaultScope: {
+      attributes: ['id', 'title', 'completed', 'user_id']
+    }
   }
 )
 

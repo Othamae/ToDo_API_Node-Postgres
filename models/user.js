@@ -1,7 +1,7 @@
 const { sequelize } = require('../db')
 const { DataTypes } = require('sequelize')
 
-const User = sequelize.define('Users',
+const User = sequelize.define('User',
   {
     name: {
       type: DataTypes.STRING,
@@ -18,7 +18,15 @@ const User = sequelize.define('Users',
     }
   },
   {
-    timestamps: true
+    tableName: 'Users',
+    timestamps: true,
+    underscored: true,
+    defaultScope: {
+      attributes: ['id', 'name', 'email', 'password']
+    },
+    toJSON: {
+      exclude: ['password']
+    }
   }
 )
 
