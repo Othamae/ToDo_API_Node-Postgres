@@ -7,7 +7,7 @@ const { matchedData } = require('express-validator')
 const getAllTask = async (req, res) => {
   try {
     const data = await taskModel.findAll()
-    res.status(200).send({ data })
+    res.status(200).send(data)
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_GETTING_ALL_TASKs', 400)
@@ -29,7 +29,7 @@ const addTask = async (req, res) => {
     await taskModel.create(newTask)
     const createdTask = await taskModel.findOne({ where: { title } })
 
-    res.status(201).send({ createdTask })
+    res.status(201).send(createdTask)
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_CREATING_TASK')
@@ -58,8 +58,17 @@ const updateTask = async (req, res) => {
   }
 }
 
-const deleteTask = () => {
-
+const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params
+    const TaskToDelete = await taskModel.findOne({ where: { id } })
+    if (!TaskToDelete) return res.status(404).send('NO_TASK_FOUND')
+    await taskModel.destroy({ where: { id } })
+    res.status(200).send(TaskToDelete)
+  } catch (error) {
+    console.log(error)
+    handleHTTPError(res, 'ERROR_DELETING_TASK')
+  }
 }
 
 const getAllTaskByUser = async (req, res) => {
