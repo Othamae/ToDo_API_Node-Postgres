@@ -76,7 +76,7 @@ const getAllTaskByUser = async (req, res) => {
     const { id } = req.params
     const listOfTask = await taskModel.findAll({ where: { user_id: id } })
     if (listOfTask.length === 0) return res.status(200).send('NO_TASK_FOR_THIS_USER')
-    res.status(200).send({ listOfTask })
+    res.status(200).send(listOfTask)
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_GETTING_TASK_BY_USER')

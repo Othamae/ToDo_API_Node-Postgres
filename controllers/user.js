@@ -42,7 +42,7 @@ const userLogin = async (req, res) => {
       email: user.email,
       token: await tokenSign(user)
     }
-    res.status(200).send({ data })
+    res.status(200).send(data)
   } catch (error) {
     console.log(error)
     handleHTTPError(res, 'ERROR_LOGIN_USER', 401)
