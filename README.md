@@ -1,6 +1,6 @@
 # Todo Application
 
-This is a web application that allows users to create and manage their own to-do lists.
+This is API that allows users to create and manage their own to-do lists.
 
 ## Features
 * Users can register and login to the application
