@@ -16,7 +16,7 @@ const Task = sequelize.define('Task',
     }
   },
   {
-    tableName: 'Tasks',
+    tableName: 'tasks',
     timestamps: true,
     underscored: true,
     defaultScope: {
